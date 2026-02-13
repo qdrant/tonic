@@ -34,6 +34,7 @@ pub struct Endpoint {
     pub(crate) http2_keep_alive_while_idle: Option<bool>,
     pub(crate) connect_timeout: Option<Duration>,
     pub(crate) http2_adaptive_window: Option<bool>,
+    pub(crate) http2_max_local_error_reset_streams: Option<Option<usize>>,
     pub(crate) executor: SharedExec,
 }
 
@@ -290,6 +291,15 @@ impl Endpoint {
         }
     }
 
+    /// Sets the maximum number of local resets due to protocol errors made by the remote end.
+    /// Uses `hyper`'s default otherwise.
+    pub fn http2_max_local_error_reset_streams(self, max: Option<usize>) -> Self {
+        Endpoint {
+            http2_max_local_error_reset_streams: Some(max),
+            ..self
+        }
+    }
+
     /// Sets the executor used to spawn async tasks.
     ///
     /// Uses `tokio::spawn` by default.
@@ -434,6 +444,7 @@ impl From<Uri> for Endpoint {
             http2_keep_alive_while_idle: None,
             connect_timeout: None,
             http2_adaptive_window: None,
+            http2_max_local_error_reset_streams: None,
             executor: SharedExec::tokio(),
         }
     }

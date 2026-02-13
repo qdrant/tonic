@@ -56,6 +56,10 @@ impl Connection {
             settings.http2_adaptive_window(val);
         }
 
+        if let Some(val) = endpoint.http2_max_local_error_reset_streams {
+            settings.http2_max_local_error_reset_streams(val);
+        }
+
         let stack = ServiceBuilder::new()
             .layer_fn(|s| {
                 let origin = endpoint.origin.as_ref().unwrap_or(&endpoint.uri).clone();
