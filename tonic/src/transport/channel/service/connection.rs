@@ -51,6 +51,10 @@ impl Connection {
             settings.adaptive_window(val);
         }
 
+        if let Some(val) = endpoint.http2_max_local_error_reset_streams {
+            settings.max_local_error_reset_streams(val);
+        }
+
         if let Some(val) = endpoint.http2_max_header_list_size {
             settings.max_header_list_size(val);
         }

@@ -48,6 +48,7 @@ pub struct Endpoint {
     pub(crate) http2_max_header_list_size: Option<u32>,
     pub(crate) connect_timeout: Option<Duration>,
     pub(crate) http2_adaptive_window: Option<bool>,
+    pub(crate) http2_max_local_error_reset_streams: Option<Option<usize>>,
     pub(crate) local_address: Option<IpAddr>,
     pub(crate) executor: SharedExec,
 }
@@ -95,6 +96,7 @@ impl Endpoint {
             http2_max_header_list_size: None,
             connect_timeout: None,
             http2_adaptive_window: None,
+            http2_max_local_error_reset_streams: None,
             executor: SharedExec::tokio(),
             local_address: None,
         }
@@ -124,6 +126,7 @@ impl Endpoint {
             http2_max_header_list_size: None,
             connect_timeout: None,
             http2_adaptive_window: None,
+            http2_max_local_error_reset_streams: None,
             executor: SharedExec::tokio(),
             local_address: None,
         }
@@ -420,6 +423,15 @@ impl Endpoint {
     pub fn http2_max_header_list_size(self, size: u32) -> Self {
         Endpoint {
             http2_max_header_list_size: Some(size),
+            ..self
+        }
+    }
+
+    /// Sets the maximum number of local resets due to protocol errors made by the remote end.
+    /// Uses `hyper`'s default otherwise.
+    pub fn http2_max_local_error_reset_streams(self, max: Option<usize>) -> Self {
+        Endpoint {
+            http2_max_local_error_reset_streams: Some(max),
             ..self
         }
     }
