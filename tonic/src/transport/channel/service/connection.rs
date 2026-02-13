@@ -36,6 +36,7 @@ impl Connection {
             .initial_stream_window_size(endpoint.init_stream_window_size)
             .initial_connection_window_size(endpoint.init_connection_window_size)
             .keep_alive_interval(endpoint.http2_keep_alive_interval)
+            .max_local_error_reset_streams(endpoint.http2_max_local_error_reset_streams)
             .timer(TokioTimer::new())
             .clone();
 
