@@ -28,3 +28,6 @@ members = [
   "tests/default_stubs",
 ]
 resolver = "2"
+
+[patch.crates-io]
+hyper = { git = "https://github.com/qdrant/hyper", branch = "v0.14.26-qdrant" }
