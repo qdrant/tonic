@@ -22,9 +22,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(FetchContent)
 include(FetchProtobuf)
 
-# Download and configure protobuf
-fetch_protobuf(${PROTOBUF_VERSION})
-
 # Download and configure abseil
 # Abseil version that's compatible with protobuf
 set(ABSEIL_VERSION "20240722.0")
@@ -51,6 +48,9 @@ set(absl_DIR "${CMAKE_CURRENT_BINARY_DIR}/_deps/absl-build" CACHE PATH "" FORCE)
 set(CMAKE_PREFIX_PATH "" CACHE STRING "" FORCE)
 
 FetchContent_MakeAvailable(absl)
+
+# Download and configure protobuf
+fetch_protobuf(${PROTOBUF_VERSION})
 
 # Add the protoc-gen-rust-grpc executable
 add_executable(protoc-gen-rust-grpc
